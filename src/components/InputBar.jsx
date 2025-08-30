@@ -1,24 +1,20 @@
-import { motion } from "framer-motion";
-
 function InputBar({ question, setQuestion, askQuestion }) {
   return (
-    <div className="flex items-center bg-gray-100 w-full rounded-full border border-gray-300 px-3 py-1 shadow-sm">
+    <div className="bg-zinc-800 w-full text-white p-1 pr-2 rounded-3xl border border-zinc-700 flex h-12 md:h-14">
       <input
         type="text"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && askQuestion()}
-        className="flex-1 h-10 bg-transparent outline-none text-gray-800 text-sm md:text-base px-2"
-        placeholder="Type your message..."
+        className="flex-1 h-full px-3 bg-transparent outline-none text-white text-sm md:text-base"
+        placeholder="Ask me anything..."
       />
-      <motion.button
-        whileTap={{ scale: 0.9 }}
-        whileHover={{ scale: 1.05 }}
+      <button
         onClick={askQuestion}
-        className="ml-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full text-sm md:text-base shadow transition"
+        className="px-3 md:px-4 bg-zinc-700 rounded-2xl ml-2 text-sm md:text-base"
       >
-        Send
-      </motion.button>
+        Ask
+      </button>
     </div>
   );
 }
