@@ -1,6 +1,6 @@
 function Sidebar({ savedHistory, clearChat, loadSavedChat }) {
   return (
-    <div className="col-span-1 bg-zinc-800 flex flex-col p-4">
+    <div className="hidden md:flex md:w-64 bg-zinc-800 flex-col p-4">
       <h2 className="text-white font-bold text-lg mb-4">Recent History</h2>
 
       <div className="flex-1 w-full text-left text-sm space-y-2 overflow-y-auto custom-scroll">
@@ -25,7 +25,7 @@ function Sidebar({ savedHistory, clearChat, loadSavedChat }) {
 
       <button
         onClick={clearChat}
-        className="bg-red-600 text-white px-4 py-2 rounded-lg mt-4"
+        className="bg-red-600 text-white px-4 py-2 rounded-lg mt-4 w-full"
       >
         Clear Saved History
       </button>

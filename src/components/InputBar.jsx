@@ -1,17 +1,17 @@
 function InputBar({ question, setQuestion, askQuestion }) {
   return (
-    <div className="bg-zinc-800 w-full max-w-2xl text-white p-1 pr-5 rounded-3xl border border-zinc-700 flex h-16 mx-auto">
+    <div className="bg-zinc-800 w-full text-white p-1 pr-2 rounded-3xl border border-zinc-700 flex h-12 md:h-14">
       <input
         type="text"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && askQuestion()}
-        className="w-full h-full p-3 outline-none bg-transparent text-white"
-        placeholder="Ask me anything"
+        className="flex-1 h-full px-3 bg-transparent outline-none text-white text-sm md:text-base"
+        placeholder="Ask me anything..."
       />
       <button
         onClick={askQuestion}
-        className="px-4 bg-zinc-700 rounded-2xl ml-2"
+        className="px-3 md:px-4 bg-zinc-700 rounded-2xl ml-2 text-sm md:text-base"
       >
         Ask
       </button>

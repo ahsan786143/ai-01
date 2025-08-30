@@ -1,16 +1,13 @@
 import AnswerBubble from './AnswerBubble';
 
-function ChatWindow({ chatHistory, loading, chatContainerRef, messagesEndRef, answerRef }) {
+function ChatWindow({ chatHistory, loading, messagesEndRef, answerRef }) {
   return (
-    <div
-      ref={chatContainerRef}
-      className="flex-1 overflow-y-auto p-4 rounded-xl mb-4 text-left space-y-4 custom-scroll bg-zinc-900"
-    >
+    <div className="space-y-4">
       {chatHistory.map((item, index) => (
         <div key={index} className="space-y-2">
           {item.question && (
             <div className="flex justify-end">
-              <div className="bg-zinc-600 text-white px-4 py-3 rounded-2xl max-w-xs text-right shadow">
+              <div className="bg-zinc-600 text-white px-3 md:px-4 py-2 md:py-3 rounded-2xl max-w-[75%] text-right shadow text-sm md:text-base">
                 {item.question}
               </div>
             </div>
@@ -26,7 +23,7 @@ function ChatWindow({ chatHistory, loading, chatContainerRef, messagesEndRef, an
 
       {loading && (
         <div className="flex justify-start">
-          <div className="bg-gray-700 text-white px-4 py-3 rounded-2xl max-w-xs font-mono animate-pulse">
+          <div className="bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-2xl max-w-[75%] font-mono animate-pulse text-sm md:text-base">
             Typing...
           </div>
         </div>

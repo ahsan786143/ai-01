@@ -93,7 +93,6 @@ function App() {
   };
 
   const loadSavedChat = (item) => {
-    // restore just one saved Q/A
     setChatHistory([{ question: item.question, answer: item.answer }]);
     setTimeout(() => {
       answerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -101,22 +100,39 @@ function App() {
   };
 
   return (
-    <div className="grid grid-cols-5 h-screen text-center">
-      <Sidebar savedHistory={savedHistory} clearChat={clearChat} loadSavedChat={loadSavedChat} />
-      <div className="col-span-4 flex flex-col bg-zinc-900 p-6">
-        <h2 className="text-white font-bold text-xl mb-4 text-center">💬 Chat Window</h2>
-        <ChatWindow
-          chatHistory={chatHistory}
-          loading={loading}
-          chatContainerRef={chatContainerRef}
-          messagesEndRef={messagesEndRef}
-          answerRef={answerRef}
-        />
-        <InputBar
-          question={question}
-          setQuestion={setQuestion}
-          askQuestion={askQuestion}
-        />
+    <div className="flex h-screen w-full overflow-hidden bg-zinc-900">
+      {/* Sidebar hidden on mobile */}
+      <Sidebar
+        savedHistory={savedHistory}
+        clearChat={clearChat}
+        loadSavedChat={loadSavedChat}
+      />
+
+      {/* Main Chat Area */}
+      <div className="flex flex-col flex-1 relative">
+        <h2 className="text-white font-bold text-lg md:text-xl p-4 border-b border-zinc-700 text-center md:text-left">
+          💬 Welcome Ask Anything 
+        </h2>
+
+        {/* Scrollable Chat Window */}
+        <div className="flex-1 overflow-y-auto p-3 md:p-4 custom-scroll">
+          <ChatWindow
+            chatHistory={chatHistory}
+            loading={loading}
+            chatContainerRef={chatContainerRef}
+            messagesEndRef={messagesEndRef}
+            answerRef={answerRef}
+          />
+        </div>
+
+        {/* Sticky Input at bottom */}
+        <div className="p-2 md:p-4 border-t border-zinc-700 bg-zinc-900">
+          <InputBar
+            question={question}
+            setQuestion={setQuestion}
+            askQuestion={askQuestion}
+          />
+        </div>
       </div>
     </div>
   );
