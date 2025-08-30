@@ -10,11 +10,9 @@ import InputBar from './components/InputBar.jsx';
 function App() {
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
-  const chatContainerRef = useRef(null);
   const messagesEndRef = useRef(null);
   const answerRef = useRef(null);
 
-  // Saved history (localStorage)
   const [savedHistory, setSavedHistory] = useState(() => {
     try {
       const saved = localStorage.getItem('chatHistory');
@@ -24,23 +22,18 @@ function App() {
     }
   });
 
-  // Current session
   const [chatHistory, setChatHistory] = useState([]);
 
-  // Save permanent history
   useEffect(() => {
     localStorage.setItem('chatHistory', JSON.stringify(savedHistory));
   }, [savedHistory]);
 
-  // Auto scroll
   useLayoutEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory, loading]);
 
-  // Ask question handler
   const askQuestion = async () => {
     if (!question.trim()) return;
-
     const currentQuestion = question;
     setQuestion('');
     setLoading(true);
@@ -62,7 +55,7 @@ function App() {
         updated[updated.length - 1] = newItem;
 
         setSavedHistory((old) =>
-          old.some((item) => item.question === newItem.question && item.answer === newItem.answer)
+          old.some((i) => i.question === newItem.question && i.answer === newItem.answer)
             ? old
             : [...old, newItem]
         );
@@ -71,14 +64,7 @@ function App() {
     } catch {
       setChatHistory((prev) => {
         const updated = [...prev];
-        const newItem = { ...updated[updated.length - 1], answer: 'Network error' };
-        updated[updated.length - 1] = newItem;
-
-        setSavedHistory((old) =>
-          old.some((item) => item.question === newItem.question && item.answer === newItem.answer)
-            ? old
-            : [...old, newItem]
-        );
+        updated[updated.length - 1].answer = '⚠️ Network error';
         return updated;
       });
     } finally {
@@ -100,39 +86,31 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-zinc-900">
+    <div className="flex h-screen w-full overflow-hidden bg-gray-50">
       {/* Sidebar hidden on mobile */}
-      <Sidebar
-        savedHistory={savedHistory}
-        clearChat={clearChat}
-        loadSavedChat={loadSavedChat}
-      />
+      <Sidebar savedHistory={savedHistory} clearChat={clearChat} loadSavedChat={loadSavedChat} />
 
       {/* Main Chat Area */}
       <div className="flex flex-col flex-1 relative">
-        <h2 className="text-white font-bold text-lg md:text-xl p-4 border-b border-zinc-700 text-center md:text-left">
-          💬 Welcome Ask Anything 
-        </h2>
+        {/* Header */}
+        <header className="bg-white text-gray-800 font-bold text-lg p-4 border-b border-gray-200 shadow-sm text-center md:text-left">
+          💬 Smart Chat
+        </header>
 
-        {/* Scrollable Chat Window */}
-        <div className="flex-1 overflow-y-auto p-3 md:p-4 custom-scroll">
+        {/* Chat Area */}
+        <main className="flex-1 overflow-y-auto px-3 py-2 md:px-4 md:py-4 custom-scroll">
           <ChatWindow
             chatHistory={chatHistory}
             loading={loading}
-            chatContainerRef={chatContainerRef}
             messagesEndRef={messagesEndRef}
             answerRef={answerRef}
           />
-        </div>
+        </main>
 
-        {/* Sticky Input at bottom */}
-        <div className="p-2 md:p-4 border-t border-zinc-700 bg-zinc-900">
-          <InputBar
-            question={question}
-            setQuestion={setQuestion}
-            askQuestion={askQuestion}
-          />
-        </div>
+        {/* Input Bar */}
+        <footer className="p-2 md:p-4 border-t border-gray-200 bg-white sticky bottom-0">
+          <InputBar question={question} setQuestion={setQuestion} askQuestion={askQuestion} />
+        </footer>
       </div>
     </div>
   );

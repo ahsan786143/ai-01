@@ -1,15 +1,26 @@
-function AnswerBubble({ content }) {
-  if (!content) return null;
+import { motion } from "framer-motion";
 
-  const lines = Array.isArray(content) ? content : [content];
-
+function InputBar({ question, setQuestion, askQuestion }) {
   return (
-    <div className="bg-zinc-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-2xl max-w-[75%] shadow text-sm md:text-base">
-      {lines.map((line, i) => (
-        <p key={i} className="whitespace-pre-wrap">{line}</p>
-      ))}
+    <div className="flex items-center bg-gray-100 w-full rounded-full border border-gray-300 px-3 py-1 shadow-sm">
+      <input
+        type="text"
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && askQuestion()}
+        className="flex-1 h-10 bg-transparent outline-none text-gray-800 text-sm md:text-base px-2"
+        placeholder="Type your message..."
+      />
+      <motion.button
+        whileTap={{ scale: 0.9 }}
+        whileHover={{ scale: 1.05 }}
+        onClick={askQuestion}
+        className="ml-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full text-sm md:text-base shadow transition"
+      >
+        Send
+      </motion.button>
     </div>
   );
 }
 
-export default AnswerBubble;
+export default InputBar;
